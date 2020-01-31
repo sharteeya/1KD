@@ -5,8 +5,8 @@ function getAnalysisData(tid, uid){
     let data;
     let arr = [];
     uxhr.open("GET",link);
-    uxhr.onload = function(){
-        data = JSON.parse(uxhr.responseText);
+    uxhr.onload = async function(){
+        data = await JSON.parse(uxhr.responseText);
         let students = {};
         for(let i = 0 ; i < data.members.length ; i++){
             students[data.members[i].uqid] = data.members[i].full_name;
@@ -16,7 +16,18 @@ function getAnalysisData(tid, uid){
             let d = data.shs[i];
             arr.push([students[d.uqid], d.real_time_s, d.real_time_e, d.video_time_s, d.video_time_e]);
         }
-        console.log(arr);
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        arr.forEach(function(rowArray) {
+            let row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+        let encodedUri = encodeURI(csvContent);
+        let link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "my_data.csv");
+        document.body.appendChild(link); // Required for FF
+        link.click();
     }
     uxhr.send();
 }
