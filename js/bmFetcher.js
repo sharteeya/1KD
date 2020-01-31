@@ -57,6 +57,10 @@ styles.innerHTML = `#KD_DIV{
                         font-weight: lighter;
                     }
 
+                    .KD_BTN:hover{
+                        background-color: #cccccc;
+                    }
+
                     .KD_LI{              
                         font-weight: bolder;
                     }
