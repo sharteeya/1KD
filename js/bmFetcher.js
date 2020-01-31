@@ -39,7 +39,7 @@ xhr.onload = async function(){
     for(let i = 0 ; i < data.length ; i++){
         html += `<ul>${data[i].name}(${data[i].uqid})`;
         for(let j = 0 ; j < data[i].units.length ; j++){
-            html += `<li>${data[i].units[j].name}(${data[i].units[j].uqid})<button type="button" onclick="getAnalysisData("${data[i].uqid}","${data[i].units[j].uqid}")">DL</button></li>`
+            html += `<li>${data[i].units[j].name}(${data[i].units[j].uqid})<button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')">DL</button></li>`
         }
         html += `</ul>`;
     }
