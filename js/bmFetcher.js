@@ -37,6 +37,16 @@ function getAnalysisData(tid, uid){
 }
 
 
+if(window.location.host != "1know.net"){
+    alert("這不是1know網站");
+    return;
+}
+
+if(window.location.hash.split("/")[2] === undefined ){
+    alert("無法獲得群組ID");
+    return;
+}
+
 let styles = document.createElement("style");
 styles.innerHTML = `#KD_DIV{
                         border: 1px solid black;
@@ -91,7 +101,3 @@ xhr.onload = async function(){
     document.getElementsByClassName("collection-title")[0].appendChild(div);
 };
 xhr.send();
-
-//titleArea = document.getElementsByClassName("collection-title")[0];
-
-//javascript:(function(){let js=document.createElement("script");window.bookmarkletOptions={};js.src="https://sharteeya.github.io/1KD/js/bmFetcher.js";document.body.appendChild(js)})();
