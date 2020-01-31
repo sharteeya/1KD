@@ -106,7 +106,7 @@ if(window.location.host != "1know.net"){
         }
         div.innerHTML = html;
         document.getElementsByClassName("collection-title")[0].appendChild(div);
-        document.getElementsByClassName("collection-title")[0].removeChild("KD_LOAD");
+        document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
     };
     xhr.send();
 }
