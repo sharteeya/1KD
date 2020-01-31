@@ -7,13 +7,13 @@ xhr.onload = async function(){
     let div = document.createElement('div');
     let html = "";
     for(let i = 0 ; i < data.length ; i++){
-        html += `${data[i].name}(${data[i].uqid})<ul>`;
-        for(let j = 0 ; j < data[i].units ; j++){
+        html += `<ul>${data[i].name}(${data[i].uqid})`;
+        for(let j = 0 ; j < data[i].units.length ; j++){
             html += `<li>${data[i].units[j].name}(${data[i].units[j].uqid})</li>`
         }
         html += `</ul>`;
     }
-    div.innerText = html;
+    div.innerHTML = html;
     document.getElementsByClassName("collection-title")[0].appendChild(div);
 };
 xhr.send();
