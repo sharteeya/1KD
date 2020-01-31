@@ -43,24 +43,29 @@ styles.innerHTML = `#KD_DIV{
                         padding: 10px 0px 10px 0px;
                         background-color: lightgrey;
                         font-family: 微軟正黑體;
-                    }`;
+                    }
+                    
+                    .KD_HR{
+                        border-top: 1px solid black;
+                    }
+                    `;
 document.getElementsByClassName("collection-title")[0].appendChild(styles);
 let xhr = new XMLHttpRequest();
 let groupID = window.location.hash.split('/')[2];
 let data;
-let html = "<h2>下載學生觀看資料</h2>";
+let html = "";
 xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
 xhr.onload = async function(){
     data = await JSON.parse(xhr.responseText);
     let div = document.createElement('div');
     div.id = "KD_DIV";
     for(let i = 0 ; i < data.length ; i++){
-        html += `<ul><h4>${data[i].name}</h4>`;//(${data[i].uqid})
+        html += `<h4>${data[i].name}</h4><ul>`;//(${data[i].uqid})
         for(let j = 0 ; j < data[i].units.length ; j++){
             html += `<li>${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')">下載統計資料</button></li>`
         }//(${data[i].units[j].uqid})
         html += `</ul>`;
-        html += `<hr>`;
+        html += `<hr class="KD_HR">`;
     }
     div.innerHTML = html;
     document.getElementsByClassName("collection-title")[0].appendChild(div);
