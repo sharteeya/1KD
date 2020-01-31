@@ -20,8 +20,6 @@ function getAnalysisData(tid, uid){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
             let r_time_e = new Date(d.real_time_e);
-            r_time_s.setTime(r_time_s.getTime()+1000*60*60*8);
-            r_time_e.setTime(r_time_e.getTime()+1000*60*60*8);
             arr.push([students[d.uqid], r_time_s, r_time_e, d.video_time_s, d.video_time_e]);
         }
         let csvContent = "data:text/csv;charset=utf-8,";
