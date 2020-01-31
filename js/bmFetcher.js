@@ -25,7 +25,7 @@ function getAnalysisData(tid, uid){
         let encodedUri = encodeURI(csvContent);
         let link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "my_data.csv");
+        link.setAttribute("download", `1Know資料統計_${data.unit.name}.csv`);
         document.body.appendChild(link); // Required for FF
         link.click();
     }
