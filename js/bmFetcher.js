@@ -24,13 +24,13 @@ function getAnalysisData(tid, uid){
 let xhr = new XMLHttpRequest();
 let groupID = window.location.hash.split('/')[2];
 let data;
-let html = `<style>
+let html = "";/*`<style>
                 #1KD_DIV{
                     border: 1px solid black;
                     padding: 10px 0px 10px 0px;
                     background-color: lightgrey;
                 }
-            <style>`;
+            <style>`*/;
 xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
 xhr.onload = async function(){
     data = await JSON.parse(xhr.responseText);
