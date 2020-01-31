@@ -32,26 +32,28 @@ function getAnalysisData(tid, uid){
     uxhr.send();
 }
 
+
+let styles = document.createElement("style");
+styles.innerHTML = `#1KD_DIV{
+                        border: 1px solid black;
+                        padding: 10px 0px 10px 0px;
+                        background-color: lightgrey;
+                    }`;
+document.getElementsByClassName("collection-title")[0].appendChild(styles);
 let xhr = new XMLHttpRequest();
 let groupID = window.location.hash.split('/')[2];
 let data;
-let html = "";/*`<style>
-                #1KD_DIV{
-                    border: 1px solid black;
-                    padding: 10px 0px 10px 0px;
-                    background-color: lightgrey;
-                }
-            <style>`*/;
+let html = "";
 xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
 xhr.onload = async function(){
     data = await JSON.parse(xhr.responseText);
     let div = document.createElement('div');
     div.id = "1KD_DIV";
     for(let i = 0 ; i < data.length ; i++){
-        html += `<ul>${data[i].name}(${data[i].uqid})`;
+        html += `<ul>${data[i].name}`;//(${data[i].uqid})
         for(let j = 0 ; j < data[i].units.length ; j++){
-            html += `<li>${data[i].units[j].name}(${data[i].units[j].uqid})<button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')">DL</button></li>`
-        }
+            html += `<li>${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')">下載統計資料</button></li>`
+        }//(${data[i].units[j].uqid})
         html += `</ul>`;
     }
     div.innerHTML = html;
