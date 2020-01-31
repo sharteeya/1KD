@@ -40,13 +40,29 @@ function getAnalysisData(tid, uid){
 let styles = document.createElement("style");
 styles.innerHTML = `#KD_DIV{
                         border: 1px solid black;
-                        padding: 10px 0px 10px 0px;
+                        padding: 5px 0px 0px 10px;
                         background-color: lightgrey;
                         font-family: 微軟正黑體;
                     }
                     
                     .KD_HR{
                         border-top: 1px solid black;
+                    }
+
+                    .KD_BTN{
+                        font-family: 微軟正黑體;
+                        background-color: white;
+                        border: 1px solid black;
+                        margin-left: 10px;
+                        font-weight: lighter;
+                    }
+
+                    .KD_LI{              
+                        font-weight: bolder;
+                    }
+
+                    .KD_H4{
+                        font-weight: bold;
                     }
                     `;
 document.getElementsByClassName("collection-title")[0].appendChild(styles);
@@ -60,9 +76,9 @@ xhr.onload = async function(){
     let div = document.createElement('div');
     div.id = "KD_DIV";
     for(let i = 0 ; i < data.length ; i++){
-        html += `<h4>${data[i].name}</h4><ul>`;//(${data[i].uqid})
+        html += `<h4 class="KD_H4">${data[i].name}</h4><ul>`;//(${data[i].uqid})
         for(let j = 0 ; j < data[i].units.length ; j++){
-            html += `<li>${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')">下載統計資料</button></li>`
+            html += `<li class="KD_LI">${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">下載統計資料</button></li>`
         }//(${data[i].units[j].uqid})
         html += `</ul>`;
         html += `<hr class="KD_HR">`;
