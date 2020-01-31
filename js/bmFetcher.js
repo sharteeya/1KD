@@ -2,10 +2,18 @@ let xhr = new XMLHttpRequest();
 let groupID = window.location.hash.split('/')[2];
 let data;
 xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
-xhr.onload = function(){
-    data = JSON.parse(xhr.responseText);
+xhr.onload = async function(){
+    data = await JSON.parse(xhr.responseText);
     let div = document.createElement('div');
-    div.innerText = data+"123";
+    let html = "";
+    for(let i = 0 ; i < data.length ; i++){
+        html += `${data[i].name}(${data[i].uqid})<ul>`;
+        for(let j = 0 ; j < data[i].units ; j++){
+            html += `<li>${data[i].units[j].name}(${data[i].units[j].uqid})</li>`
+        }
+        html += `</ul>`;
+    }
+    div.innerText = html;
     document.getElementsByClassName("collection-title")[0].appendChild(div);
 };
 xhr.send();
