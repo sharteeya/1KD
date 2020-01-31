@@ -15,12 +15,12 @@ function getAnalysisData(tid, uid){
         for(let i = 0 ; i < data.members.length ; i++){
             students[data.members[i].uqid] = data.members[i].full_name;
         }
-        arr.push(["姓名", "開始時間", "結束時間", "影片開始時間", "影片結束時間"]);
+        arr.push(["姓名", "開始時間", "結束時間", "花費時間", "影片開始時間", "影片結束時間", "影片觀看時間"]);
         for(let i = 0 ; i < data.shs.length ; i++){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
             let r_time_e = new Date(d.real_time_e);
-            arr.push([students[d.uqid], r_time_s, r_time_e, d.video_time_s, d.video_time_e]);
+            arr.push([students[d.uqid], r_time_s, r_time_e, d.real_time_d, d.video_time_s, d.video_time_e, d.video_time_d]);
         }
         let csvContent = "data:text/csv;charset=utf-8,";
 
