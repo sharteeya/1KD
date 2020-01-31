@@ -7,9 +7,9 @@ xhr.onload = function(){
     console.log("XHR");
 };
 xhr.send();
-
+console.log("TEST");
 let div = document.createElement('div');
-div.innerText = data;
+div.innerText = data+"123";
 document.getElementsByClassName("collection-title")[0].appendChild(div);
 //titleArea = document.getElementsByClassName("collection-title")[0];
 
