@@ -41,9 +41,9 @@ if(window.location.host != "1know.net"){
     alert("這不是1know網站");
 }else if(window.location.hash.split("/")[2] === undefined ){
     alert("無法獲得群組ID");
-}else if(document.getElementById('KD_LOAD')!==null){
+}else if(document.getElementById('KD_LOAD')){
     alert("正在讀取中");
-}else if(document.getElementById('KD_DIV')!==null){
+}else if(document.getElementById('KD_DIV')){
     alert("下載列表已經讀取過了");
 }else{
     let styles = document.createElement("style");
