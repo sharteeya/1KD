@@ -41,6 +41,10 @@ if(window.location.host != "1know.net"){
     alert("這不是1know網站");
 }else if(window.location.hash.split("/")[2] === undefined ){
     alert("無法獲得群組ID");
+}else if(document.getElementById('KD_LOAD')!==null){
+    alert("正在讀取中");
+}else if(document.getElementById('KD_DIV')!==null){
+    alert("下載列表已經讀取過了");
 }else{
     let styles = document.createElement("style");
     styles.innerHTML = `#KD_DIV{
@@ -73,8 +77,16 @@ if(window.location.host != "1know.net"){
                         .KD_H4{
                             font-weight: bold;
                         }
+
+                        #KD_LOAD{
+                            font-famliy: 微軟正黑體;
+                        }
                         `;
+    let loadDiv = document.createElement('div');
+    loadDiv.id = "KD_LOAD";
+    loadDiv.innerText = "讀取資料清單中...請耐心等候";
     document.getElementsByClassName("collection-title")[0].appendChild(styles);
+    document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
     let xhr = new XMLHttpRequest();
     let groupID = window.location.hash.split('/')[2];
     let data;
@@ -94,6 +106,7 @@ if(window.location.host != "1know.net"){
         }
         div.innerHTML = html;
         document.getElementsByClassName("collection-title")[0].appendChild(div);
+        document.getElementsByClassName("collection-title")[0].removeChild("KD_LOAD");
     };
     xhr.send();
 }
