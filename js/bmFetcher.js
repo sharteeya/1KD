@@ -95,24 +95,10 @@ if(window.location.host != "1know.net"){
                             padding: 15px 0px 15px 0px;
                             font-famliy: 微軟正黑體;
                         }
-
-                        .loader {
-                            border: 16px solid #f3f3f3; /* Light grey */
-                            border-top: 16px solid #3498db; /* Blue */
-                            border-radius: 50%;
-                            width: 120px;
-                            height: 120px;
-                            animation: spin 2s linear infinite;
-                        }
-                          
-                        @keyframes spin {
-                            0% { transform: rotate(0deg); }
-                            100% { transform: rotate(360deg); }
-                        }
                         `;
     let loadDiv = document.createElement('div');
     loadDiv.id = "KD_LOAD";
-    loadDiv.innerHTML = "<div class='spin'><div>讀取資料中...請耐心等候";
+    loadDiv.innerText = "讀取資料中...請耐心等候";
     document.getElementsByClassName("collection-title")[0].appendChild(styles);
     document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
     let xhr = new XMLHttpRequest();
