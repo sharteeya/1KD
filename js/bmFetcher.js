@@ -109,7 +109,7 @@ if(window.location.host != "1know.net"){
         for(let i = 0 ; i < data.length ; i++){
             html += `<h4 class="KD_H4">${data[i].name}</h4>`;//(${data[i].uqid})
             for(let j = 0 ; j < data[i].units.length ; j++){
-                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">下載統計資料</button></div>`
+                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">CSV</button></div>`
             }//(${data[i].units[j].uqid})
             //html += `</ul>`;
             html += `<hr class="KD_HR">`;
