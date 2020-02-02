@@ -15,7 +15,7 @@ function getAnalysisData(tid, uid){
         for(let i = 0 ; i < data.members.length ; i++){
             students[data.members[i].uqid] = data.members[i].full_name;
         }
-        arr.push(["\ufeff姓名", "\ufeff開始時間", "\ufeff結束時間", "\ufeff花費時間", "\ufeff影片開始時間", "\ufeff影片結束時間", "\ufeff影片觀看時間"]);
+        arr.push(["\ufeff姓名", "開始時間", "結束時間", "花費時間", "影片開始時間", "影片結束時間", "影片觀看時間"]);
         for(let i = 0 ; i < data.shs.length ; i++){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
