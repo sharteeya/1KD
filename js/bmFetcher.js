@@ -53,6 +53,7 @@ if(window.location.host != "1know.net"){
                             border: 1px solid grey;
                             background-color: white;
                             font-family: 微軟正黑體;
+                            box-shadow: 1px 2px 2px 2px grey;
                         }
                         
                         .KD_HR{
@@ -91,12 +92,13 @@ if(window.location.host != "1know.net"){
                         }
 
                         #KD_LOAD{
+                            padding: 15px 0px 15px 0px;
                             font-famliy: 微軟正黑體;
                         }
                         `;
     let loadDiv = document.createElement('div');
     loadDiv.id = "KD_LOAD";
-    loadDiv.innerText = "讀取資料清單中...請耐心等候";
+    loadDiv.innerText = "讀取資料中...請耐心等候";
     document.getElementsByClassName("collection-title")[0].appendChild(styles);
     document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
     let xhr = new XMLHttpRequest();
@@ -111,7 +113,7 @@ if(window.location.host != "1know.net"){
         for(let i = 0 ; i < data.length ; i++){
             html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;//(${data[i].uqid})
             for(let j = 0 ; j < data[i].units.length ; j++){
-                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">CSV</button></div>`
+                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">CSV</button></div>`
             }
         }
         div.innerHTML = html;
