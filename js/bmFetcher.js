@@ -50,9 +50,9 @@ if(window.location.host != "1know.net"){
 }else{
     let styles = document.createElement("style");
     styles.innerHTML = `#KD_DIV{
-                            border: 1px solid black;
+                            border: 1px solid grey;
                             padding: 5px 0px 0px 10px;
-                            background-color: lightgrey;
+                            background-color: white;
                             font-family: 微軟正黑體;
                         }
                         
@@ -62,18 +62,26 @@ if(window.location.host != "1know.net"){
 
                         .KD_BTN{
                             font-family: 微軟正黑體;
-                            background-color: white;
-                            border: 1px solid black;
+                            background-color: #037bfc;
+                            border: none;
                             margin-left: 10px;
-                            font-weight: lighter;
+                            font-weight: bold;
+                            margin-right: 10px;
+                            border-radius: 5px;
+                            color: white;
+                            padding: 3px 8px 3px 8px;
                         }
 
                         .KD_BTN:hover{
-                            background-color: #cccccc;
+                            background-color: #0057b5;
                         }
 
                         .KD_LI{              
                             font-weight: bolder;
+                            margin-bottom: 10px;
+                            padding-bottom: 2px;
+                            display: block;
+                            margin-left: 15px;
                         }
 
                         .KD_H4{
@@ -99,11 +107,11 @@ if(window.location.host != "1know.net"){
         let div = document.createElement('div');
         div.id = "KD_DIV";
         for(let i = 0 ; i < data.length ; i++){
-            html += `<h4 class="KD_H4">${data[i].name}</h4><ul>`;//(${data[i].uqid})
+            html += `<h4 class="KD_H4">${data[i].name}</h4>`;//(${data[i].uqid})
             for(let j = 0 ; j < data[i].units.length ; j++){
-                html += `<li class="KD_LI">${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">下載統計資料</button></li>`
+                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">下載統計資料</button></div>`
             }//(${data[i].units[j].uqid})
-            html += `</ul>`;
+            //html += `</ul>`;
             html += `<hr class="KD_HR">`;
         }
         div.innerHTML = html;
