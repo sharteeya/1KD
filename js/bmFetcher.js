@@ -51,7 +51,6 @@ if(window.location.host != "1know.net"){
     let styles = document.createElement("style");
     styles.innerHTML = `#KD_DIV{
                             border: 1px solid grey;
-                            padding: 5px 0px 0px 10px;
                             background-color: white;
                             font-family: 微軟正黑體;
                         }
@@ -81,11 +80,14 @@ if(window.location.host != "1know.net"){
                             margin-bottom: 10px;
                             padding-bottom: 2px;
                             display: block;
-                            margin-left: 15px;
+                            padding-left: 15px;
+                            border-bottom: 1px gray dotted;
                         }
 
                         .KD_H4{
                             font-weight: bold;
+                            padding-left: 5px;
+                            margin-top: 20px;
                         }
 
                         #KD_LOAD{
@@ -112,7 +114,7 @@ if(window.location.host != "1know.net"){
                 html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">CSV</button></div>`
             }//(${data[i].units[j].uqid})
             //html += `</ul>`;
-            html += `<hr class="KD_HR">`;
+            //html += `<hr class="KD_HR">`;
         }
         div.innerHTML = html;
         document.getElementsByClassName("collection-title")[0].appendChild(div);
