@@ -112,7 +112,7 @@ if(window.location.host != "1know.net"){
                         `;
     let loadDiv = document.createElement('div');
     loadDiv.id = "KD_LOAD";
-    loadDiv.inneHTML = "<div class='spin'><div>讀取資料中...請耐心等候";
+    loadDiv.innerHTML = "<div class='spin'><div>讀取資料中...請耐心等候";
     document.getElementsByClassName("collection-title")[0].appendChild(styles);
     document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
     let xhr = new XMLHttpRequest();
