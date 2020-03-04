@@ -72,12 +72,12 @@ async function getAnalysisData(tid, uid, gid){
         for(let i = 0 ; i < data.members.length ; i++){
             students[data.members[i].uqid] = data.members[i].full_name;
         }
-        arr.push(["\ufeff姓名", "學號", "開始時間", "結束時間", "花費時間", "影片開始時間", "影片結束時間", "影片觀看時間"]);
+        arr.push(["\ufeff姓名", "學號", "開始時間", "結束時間", "花費時間", "影片開始時間", "影片結束時間", "影片觀看時間", "影片名稱", "影片長度"]);
         for(let i = 0 ; i < data.shs.length ; i++){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
             let r_time_e = new Date(d.real_time_e);
-            arr.push([students[d.uqid].replace(/\s/g, ''), memberData[students[d.uqid]], r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
+            arr.push([students[d.uqid].replace(/\s/g, ''), memberData[students[d.uqid]], r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10], data.unit.name, data.unit.content_time);
         }
         let csvContent = "data:text/csv;charset=utf-8,";
 
