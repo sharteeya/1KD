@@ -90,8 +90,8 @@ function getGroupMember(gid){
     let mxhr = new XMLHttpRequest();
     let mData = {};
     mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
-    mxhr.onload = async function(){
-        let d = await JSON.parse(mxhr.responseText);
+    mxhr.onload = function(){
+        let d = JSON.parse(mxhr.responseText);
         for(let i = 0 ; i < d.length ; i++) {
             mData[d[i].full_name] = d[i].email.split('@')[0] ;
         }
