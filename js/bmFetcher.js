@@ -20,7 +20,7 @@ function getAnalysisData(tid, uid){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
             let r_time_e = new Date(d.real_time_e);
-            arr.push([students[d.uqid], r_time_s.toString(), r_time_e.toString(), d.real_time_d, d.video_time_s, d.video_time_e, d.video_time_d]);
+            arr.push([students[d.uqid].replace(/\s/g, ''), r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
         }
         let csvContent = "data:text/csv;charset=utf-8,";
 
