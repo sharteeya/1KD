@@ -51,6 +51,7 @@ async function getAnalysisData(tid, uid, gid){
     let uxhr = new XMLHttpRequest();
     let data;
     let memberData = await getGroupMember(gid);
+    console.log(memberData);
     let arr = [];
     uxhr.open("GET",link);
     uxhr.onload = async function(){
@@ -95,6 +96,7 @@ function getGroupMember(gid){
         for(let i = 0 ; i < d.length ; i++) {
             mData[d[i].full_name] = d[i].email.split('@')[0] ;
         }
+        console.log("FIN");
         return mData;
     }
     mxhr.send();
