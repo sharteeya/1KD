@@ -46,12 +46,21 @@ const PLUGIN_STYLE = `
         font-famliy: 微軟正黑體;
     }`;
 
-function getAnalysisData(tid, uid, gid){
+async function getAnalysisData(tid, uid, gid){
     let link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     let uxhr = new XMLHttpRequest();
     let data;
-    let memberData = getGroupMember(gid);
-    console.log(memberData);
+    let mxhr = new XMLHttpRequest();
+    let mData = {};
+    mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
+    mxhr.onload = function(){
+        let d = JSON.parse(mxhr.responseText);
+        for(let i = 0 ; i < d.length ; i++) {
+            mData[d[i].full_name] = d[i].email.split('@')[0] ;
+        }
+        return mData;
+    }
+    mxhr.send();
     let arr = [];
     uxhr.open("GET",link);
     uxhr.onload = async function(){
@@ -69,7 +78,7 @@ function getAnalysisData(tid, uid, gid){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
             let r_time_e = new Date(d.real_time_e);
-            arr.push([students[d.uqid].replace(/\s/g, ''), memberData[students[d.uqid]], r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
+            arr.push([students[d.uqid].replace(/\s/g, ''), mData[students[d.uqid]], r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
         }
         let csvContent = "data:text/csv;charset=utf-8,";
 
@@ -86,22 +95,6 @@ function getAnalysisData(tid, uid, gid){
     }
     uxhr.send();
 }
-
-function getGroupMember(gid){
-    let mxhr = new XMLHttpRequest();
-    let mData = {};
-    mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
-    mxhr.onload = function(){
-        let d = JSON.parse(mxhr.responseText);
-        for(let i = 0 ; i < d.length ; i++) {
-            mData[d[i].full_name] = d[i].email.split('@')[0] ;
-        }
-        console.log(mData);
-        return mData;
-    }
-    mxhr.send();
-}
-
 
 if(window.location.host != "1know.net"){
     alert("這不是1know網站");
