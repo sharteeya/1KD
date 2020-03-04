@@ -44,9 +44,11 @@ const PLUGIN_STYLE = `
     #KD_LOAD{
         padding: 15px 0px 15px 0px;
         font-famliy: 微軟正黑體;
-    }`
+    }`;
 
-function getAnalysisData(tid, uid, mData){
+var memberData={};
+
+function getAnalysisData(tid, uid){
     let link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     let uxhr = new XMLHttpRequest();
     let data;
@@ -67,7 +69,7 @@ function getAnalysisData(tid, uid, mData){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
             let r_time_e = new Date(d.real_time_e);
-            arr.push([students[d.uqid].replace(/\s/g, ''), mData[students[d.uqid]], r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
+            arr.push([students[d.uqid].replace(/\s/g, ''), memberData[students[d.uqid]], r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
         }
         let csvContent = "data:text/csv;charset=utf-8,";
 
@@ -87,14 +89,14 @@ function getAnalysisData(tid, uid, mData){
 
 function getGroupMember(gid){
     let mxhr = new XMLHttpRequest();
-    let memberData = {};
+    let mData = {};
     mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
     mxhr.onload = async function(){
         let d = await JSON.parse(mxhr.responseText);
         for(let i = 0 ; i < d.length ; i++) {
-            memberData[d[i].full_name] = d[i].email.split('@')[0] ;
+            mData[d[i].full_name] = d[i].email.split('@')[0] ;
         }
-        return memberData;
+        return mData;
     }
     mxhr.send();
 }
@@ -119,7 +121,7 @@ if(window.location.host != "1know.net"){
     let xhr = new XMLHttpRequest();
     let groupID = window.location.hash.split('/')[2];
     let data;
-    let memberData = getGroupMember(groupID);
+    memberData = getGroupMember(groupID);
     let html = "";
     xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
     xhr.onload = async function(){
@@ -130,7 +132,7 @@ if(window.location.host != "1know.net"){
             html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;//(${data[i].uqid})
             for(let j = 0 ; j < data[i].units.length ; j++){
                 if(data[i].units[j].unit_type != "video") continue;
-                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${memberData}')" class="KD_BTN">CSV</button></div>`
+                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">CSV</button></div>`
             }
         }
         div.innerHTML = html;
