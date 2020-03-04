@@ -46,11 +46,11 @@ const PLUGIN_STYLE = `
         font-famliy: 微軟正黑體;
     }`;
 
-function getAnalysisData(tid, uid, gid){
+async function getAnalysisData(tid, uid, gid){
     let link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     let uxhr = new XMLHttpRequest();
     let data;
-    let memberData = getGroupMember(gid);
+    let memberData = await getGroupMember(gid);
     let arr = [];
     uxhr.open("GET",link);
     uxhr.onload = async function(){
