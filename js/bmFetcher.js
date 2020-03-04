@@ -46,11 +46,11 @@ const PLUGIN_STYLE = `
         font-famliy: 微軟正黑體;
     }`;
 
-async function getAnalysisData(tid, uid, gid){
+function getAnalysisData(tid, uid, gid){
     let link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     let uxhr = new XMLHttpRequest();
     let data;
-    let memberData = await getGroupMember(gid);
+    let memberData = getGroupMember(gid);
     console.log(memberData);
     let arr = [];
     uxhr.open("GET",link);
@@ -96,7 +96,7 @@ function getGroupMember(gid){
         for(let i = 0 ; i < d.length ; i++) {
             mData[d[i].full_name] = d[i].email.split('@')[0] ;
         }
-        console.log("FIN");
+        console.log(mData);
         return mData;
     }
     mxhr.send();
