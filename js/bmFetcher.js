@@ -46,12 +46,11 @@ const PLUGIN_STYLE = `
         font-famliy: 微軟正黑體;
     }`;
 
-var memberData={};
-
-function getAnalysisData(tid, uid){
+function getAnalysisData(tid, uid, gid){
     let link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     let uxhr = new XMLHttpRequest();
     let data;
+    let memberData = getGroupMember(gid);
     let arr = [];
     uxhr.open("GET",link);
     uxhr.onload = async function(){
@@ -121,7 +120,6 @@ if(window.location.host != "1know.net"){
     let xhr = new XMLHttpRequest();
     let groupID = window.location.hash.split('/')[2];
     let data;
-    memberData = getGroupMember(groupID);
     let html = "";
     xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
     xhr.onload = async function(){
@@ -132,7 +130,7 @@ if(window.location.host != "1know.net"){
             html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;//(${data[i].uqid})
             for(let j = 0 ; j < data[i].units.length ; j++){
                 if(data[i].units[j].unit_type != "video") continue;
-                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN">CSV</button></div>`
+                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
             }
         }
         div.innerHTML = html;
