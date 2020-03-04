@@ -1,3 +1,50 @@
+const PLUGIN_STYLE = `
+    #KD_DIV{
+        border: 1px solid grey;
+        background-color: white;
+        font-family: 微軟正黑體;
+        box-shadow: 1px 2px 2px 2px grey;
+    }
+
+    .KD_HR{
+        border-top: 1px solid black;
+    }
+
+    .KD_BTN{
+        font-family: 微軟正黑體;
+        background-color: #037bfc;
+        border: none;
+        margin-left: 10px;
+        font-weight: bold;
+        margin-right: 10px;
+        border-radius: 5px;
+        color: white;
+        padding: 3px 8px 3px 8px;
+    }
+
+    .KD_BTN:hover{
+        background-color: #0057b5;
+    }
+
+    .KD_LI{              
+        font-weight: bolder;
+        margin-bottom: 10px;
+        padding-bottom: 2px;
+        display: block;
+        padding-left: 15px;
+        border-bottom: 1px gray dotted;
+    }
+
+    .KD_H4{
+        font-weight: bold;
+        padding-left: 5px;
+        margin-top: 20px;
+    }
+
+    #KD_LOAD{
+        padding: 15px 0px 15px 0px;
+        font-famliy: 微軟正黑體;
+    }`
 
 function getAnalysisData(tid, uid){
     let link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
@@ -15,12 +62,12 @@ function getAnalysisData(tid, uid){
         for(let i = 0 ; i < data.members.length ; i++){
             students[data.members[i].uqid] = data.members[i].full_name;
         }
-        arr.push(["\ufeff姓名", "開始時間", "結束時間", "花費時間", "影片開始時間", "影片結束時間", "影片觀看時間"]);
+        arr.push(["\ufeff姓名", "學號", "開始時間", "結束時間", "花費時間", "影片開始時間", "影片結束時間", "影片觀看時間"]);
         for(let i = 0 ; i < data.shs.length ; i++){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
             let r_time_e = new Date(d.real_time_e);
-            arr.push([students[d.uqid].replace(/\s/g, ''), r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
+            arr.push([students[d.uqid].replace(/\s/g, ''), mData[students[d.uqid]], r_time_s.toString(), r_time_e.toString(), Math.round(d.real_time_d * 10) / 10, Math.round(d.video_time_s * 10) / 10, Math.round(d.video_time_e * 10) / 10, Math.round(d.video_time_d * 10) / 10]);
         }
         let csvContent = "data:text/csv;charset=utf-8,";
 
@@ -38,6 +85,20 @@ function getAnalysisData(tid, uid){
     uxhr.send();
 }
 
+function getGroupMember(gid){
+    let mxhr = new XMLHttpRequest();
+    let memberData = {};
+    mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
+    mxhr.onload = async function(){
+        let d = await JSON.parse(mxhr.responseText);
+        for(let i = 0 ; i < d.length ; i++) {
+            memberData[d[i].full_name] = d[i].email.split('@')[0] ;
+        }
+        return memberData;
+    }
+    mxhr.send();
+}
+
 
 if(window.location.host != "1know.net"){
     alert("這不是1know網站");
@@ -49,53 +110,7 @@ if(window.location.host != "1know.net"){
     alert("下載列表已經讀取過了");
 }else{
     let styles = document.createElement("style");
-    styles.innerHTML = `#KD_DIV{
-                            border: 1px solid grey;
-                            background-color: white;
-                            font-family: 微軟正黑體;
-                            box-shadow: 1px 2px 2px 2px grey;
-                        }
-                        
-                        .KD_HR{
-                            border-top: 1px solid black;
-                        }
-
-                        .KD_BTN{
-                            font-family: 微軟正黑體;
-                            background-color: #037bfc;
-                            border: none;
-                            margin-left: 10px;
-                            font-weight: bold;
-                            margin-right: 10px;
-                            border-radius: 5px;
-                            color: white;
-                            padding: 3px 8px 3px 8px;
-                        }
-
-                        .KD_BTN:hover{
-                            background-color: #0057b5;
-                        }
-
-                        .KD_LI{              
-                            font-weight: bolder;
-                            margin-bottom: 10px;
-                            padding-bottom: 2px;
-                            display: block;
-                            padding-left: 15px;
-                            border-bottom: 1px gray dotted;
-                        }
-
-                        .KD_H4{
-                            font-weight: bold;
-                            padding-left: 5px;
-                            margin-top: 20px;
-                        }
-
-                        #KD_LOAD{
-                            padding: 15px 0px 15px 0px;
-                            font-famliy: 微軟正黑體;
-                        }
-                        `;
+    styles.innerHTML = PLUGIN_STYLE;
     let loadDiv = document.createElement('div');
     loadDiv.id = "KD_LOAD";
     loadDiv.innerText = "讀取資料中...請耐心等候";
@@ -104,6 +119,7 @@ if(window.location.host != "1know.net"){
     let xhr = new XMLHttpRequest();
     let groupID = window.location.hash.split('/')[2];
     let data;
+    var mData = getGroupMember(groupID);
     let html = "";
     xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
     xhr.onload = async function(){
