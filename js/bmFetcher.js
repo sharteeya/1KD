@@ -121,7 +121,7 @@ async function getAnalysisData(tid, uid, gid){
         let div = document.createElement('div');
         div.id = "KD_DIV";
         for(let i = 0 ; i < data.length ; i++){
-            html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;//(${data[i].uqid})
+            html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;
             for(let j = 0 ; j < data[i].units.length ; j++){
                 if(data[i].units[j].unit_type != "video") continue;
                 html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
