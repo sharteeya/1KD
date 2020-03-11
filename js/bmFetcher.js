@@ -95,15 +95,15 @@ async function getAnalysisData(tid, uid, gid){
     uxhr.send();
 }
 
-// if(window.location.host != "1know.net"){
-//     alert("這不是1know網站");
-// }else if(window.location.hash.split("/")[2] === undefined ){
-//     alert("無法獲得群組ID");
-// }else if(document.getElementById('KD_LOAD')){
-//     alert("正在讀取中");
-// }else if(document.getElementById('KD_DIV')){
-//     alert("下載列表已經讀取過了");
-// }else{
+if(window.location.host != "1know.net"){
+    alert("這不是1know網站");
+}else if(window.location.hash.split("/")[2] === undefined ){
+    alert("無法獲得群組ID");
+}else if(document.getElementById('KD_LOAD')){
+    alert("正在讀取中");
+}else if(document.getElementById('KD_DIV')){
+    alert("下載列表已經讀取過了");
+}else{
     let styles = document.createElement("style");
     styles.innerHTML = PLUGIN_STYLE;
     let loadDiv = document.createElement('div');
@@ -132,4 +132,4 @@ async function getAnalysisData(tid, uid, gid){
         document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
     };
     xhr.send();
-//}
+}
