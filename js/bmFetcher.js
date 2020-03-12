@@ -95,7 +95,7 @@ async function getAnalysisData(tid, uid, gid){
     uxhr.send();
 }
 
-if(window.location.host != "1know.net"){
+if(window.location.host != "1know.net" && window.location.host != "www.1know.net"){
     alert("這不是1know網站");
 }else if(window.location.hash.split("/")[2] === undefined ){
     alert("無法獲得群組ID");
