@@ -116,8 +116,8 @@ if(window.location.host != "1know.net" && window.location.host != "www.1know.net
     let data;
     let html = "";
     xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
-    xhr.onload = async function(){
-        data = await JSON.parse(xhr.responseText);
+    xhr.onload = function(){
+        data = JSON.parse(xhr.responseText);
         let div = document.createElement('div');
         div.id = "KD_DIV";
         for(let i = 0 ; i < data.length ; i++){
@@ -132,4 +132,4 @@ if(window.location.host != "1know.net" && window.location.host != "www.1know.net
         document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
     };
     xhr.send();
-}//
+}
