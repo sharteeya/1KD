@@ -132,4 +132,4 @@ if(window.location.host != "1know.net" && window.location.host != "www.1know.net
         document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
     };
     xhr.send();
-}
+}//
