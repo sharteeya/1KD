@@ -112,10 +112,11 @@ if(window.location.host != "1know.net" && window.location.host != "www.1know.net
     document.getElementsByClassName("collection-title")[0].appendChild(styles);
     document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
     let xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
     let groupID = window.location.hash.split('/')[2];
     let data;
     let html = "";
-    xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
+    xhr.open("GET",`http://1know.net/private/group/${groupID}/task`, true);
     xhr.onload = function(){
         data = JSON.parse(xhr.responseText);
         let div = document.createElement('div');
