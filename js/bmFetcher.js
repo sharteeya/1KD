@@ -47,11 +47,14 @@ const PLUGIN_STYLE = `
     }`;
 
 async function getAnalysisData(tid, uid, gid){
-    let link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
+    let link;
+    if(window.location.host == "1know.net") link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
+    else link = `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     let uxhr = new XMLHttpRequest(), mxhr = new XMLHttpRequest();
     let data, memberData = {}, arr = [];
     //GET MEMBER
-    mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
+    if(window.location.host == "1know.net") mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
+    else mxhr.open("GET",`http://www.1know.net/private/group/${gid}/member`);
     mxhr.onload = function(){
         let d = JSON.parse(mxhr.responseText);
         for(let i = 0 ; i < d.length ; i++) {
@@ -103,7 +106,7 @@ if(window.location.host != "1know.net" && window.location.host != "www.1know.net
     alert("正在讀取中");
 }else if(document.getElementById('KD_DIV')){
     alert("下載列表已經讀取過了");
-}else{
+}else if(window.location.host == "1know.net"){
     let styles = document.createElement("style");
     styles.innerHTML = PLUGIN_STYLE;
     let loadDiv = document.createElement('div');
@@ -117,6 +120,36 @@ if(window.location.host != "1know.net" && window.location.host != "www.1know.net
     let data;
     let html = "";
     xhr.open("GET",`http://1know.net/private/group/${groupID}/task`, true);
+    xhr.onload = function(){
+        data = JSON.parse(xhr.responseText);
+        let div = document.createElement('div');
+        div.id = "KD_DIV";
+        for(let i = 0 ; i < data.length ; i++){
+            html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;
+            for(let j = 0 ; j < data[i].units.length ; j++){
+                if(data[i].units[j].unit_type != "video") continue;
+                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
+            }
+        }
+        div.innerHTML = html;
+        document.getElementsByClassName("collection-title")[0].appendChild(div);
+        document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
+    };
+    xhr.send();
+}else{
+    let styles = document.createElement("style");
+    styles.innerHTML = PLUGIN_STYLE;
+    let loadDiv = document.createElement('div');
+    loadDiv.id = "KD_LOAD";
+    loadDiv.innerText = "讀取資料中...請耐心等候";
+    document.getElementsByClassName("collection-title")[0].appendChild(styles);
+    document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    let groupID = window.location.hash.split('/')[2];
+    let data;
+    let html = "";
+    xhr.open("GET",`http://www.1know.net/private/group/${groupID}/task`, true);
     xhr.onload = function(){
         data = JSON.parse(xhr.responseText);
         let div = document.createElement('div');
