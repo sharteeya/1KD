@@ -116,6 +116,7 @@ if(window.location.host != "1know.net" && window.location.host != "www.1know.net
     let data;
     let html = "";
     xhr.open("GET",`http://1know.net/private/group/${groupID}/task`);
+    xhr.withCredentials = true;
     xhr.onload = function(){
         data = JSON.parse(xhr.responseText);
         let div = document.createElement('div');
