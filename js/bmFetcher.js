@@ -67,6 +67,8 @@ function whoDidntFinish(tid, uid){
                 unread += (student.full_name.split(' ')[0] + student.full_name.split(' ')[1] + ' ');
             }
         }
+        if(reading == "") reading = "無";
+        if(unread == "") unread = "無";
         alert(`未看完學生：${reading}\n完全未看學生：${unread}`);
     }
     xhr.send();
@@ -175,7 +177,9 @@ function init(){
                 html += `<h4 class='KD_H4'>【${data[i].name}】</h4>`;
                 for(let j = 0 ; j < data[i].units.length ; j++){
                     if(data[i].units[j].unit_type != 'video') continue;
-                    html += `<div class='KD_LI'>${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button><button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
+                    html += `<div class='KD_LI'>${data[i].units[j].name} 
+                    <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button>
+                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
                 }
             }
             div.innerHTML = html;
