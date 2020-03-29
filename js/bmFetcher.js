@@ -1,51 +1,3 @@
-const PLUGIN_STYLE = `
-    #KD_DIV{
-        border: 1px solid grey;
-        background-color: white;
-        font-family: 微軟正黑體;
-        box-shadow: 1px 2px 2px 2px grey;
-    }
-
-    .KD_HR{
-        border-top: 1px solid black;
-    }
-
-    .KD_BTN{
-        font-family: 微軟正黑體;
-        background-color: #037bfc;
-        border: none;
-        margin-left: 10px;
-        font-weight: bold;
-        margin-right: 10px;
-        border-radius: 5px;
-        color: white;
-        padding: 3px 8px 3px 8px;
-    }
-
-    .KD_BTN:hover{
-        background-color: #0057b5;
-    }
-
-    .KD_LI{              
-        font-weight: bolder;
-        margin-bottom: 10px;
-        padding-bottom: 2px;
-        display: block;
-        padding-left: 15px;
-        border-bottom: 1px gray dotted;
-    }
-
-    .KD_H4{
-        font-weight: bold;
-        padding-left: 5px;
-        margin-top: 20px;
-    }
-
-    #KD_LOAD{
-        padding: 15px 0px 15px 0px;
-        font-famliy: 微軟正黑體;
-    }`;
-
 async function getAnalysisData(tid, uid, gid){
     let link;
     if(window.location.host == "1know.net") link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
@@ -98,72 +50,100 @@ async function getAnalysisData(tid, uid, gid){
     uxhr.send();
 }
 
-if(window.location.host != "1know.net" && window.location.host != "www.1know.net"){
-    alert("這不是1know網站");
-}else if(window.location.hash.split("/")[2] === undefined ){
-    alert("無法獲得群組ID");
-}else if(document.getElementById('KD_LOAD')){
-    alert("正在讀取中");
-}else if(document.getElementById('KD_DIV')){
-    alert("下載列表已經讀取過了");
-}else if(window.location.host == "1know.net"){
-    let styles = document.createElement("style");
-    styles.innerHTML = PLUGIN_STYLE;
-    let loadDiv = document.createElement('div');
-    loadDiv.id = "KD_LOAD";
-    loadDiv.innerText = "讀取資料中...請耐心等候";
-    document.getElementsByClassName("collection-title")[0].appendChild(styles);
-    document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
-    let xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-    let groupID = window.location.hash.split('/')[2];
-    let data;
-    let html = "";
-    xhr.open("GET",`http://1know.net/private/group/${groupID}/task`, true);
-    xhr.onload = function(){
-        data = JSON.parse(xhr.responseText);
-        let div = document.createElement('div');
-        div.id = "KD_DIV";
-        for(let i = 0 ; i < data.length ; i++){
-            html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;
-            for(let j = 0 ; j < data[i].units.length ; j++){
-                if(data[i].units[j].unit_type != "video") continue;
-                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
+function init(){
+
+    const PLUGIN_STYLE = `
+    #KD_DIV{
+        border: 1px solid grey;
+        background-color: white;
+        font-family: 微軟正黑體;
+        box-shadow: 1px 2px 2px 2px grey;
+    }
+
+    .KD_HR{
+        border-top: 1px solid black;
+    }
+
+    .KD_BTN{
+        font-family: 微軟正黑體;
+        background-color: #037bfc;
+        border: none;
+        margin-left: 10px;
+        font-weight: bold;
+        margin-right: 10px;
+        border-radius: 5px;
+        color: white;
+        padding: 3px 8px 3px 8px;
+    }
+
+    .KD_BTN:hover{
+        background-color: #0057b5;
+    }
+
+    .KD_LI{              
+        font-weight: bolder;
+        margin-bottom: 10px;
+        padding-bottom: 2px;
+        display: block;
+        padding-left: 15px;
+        border-bottom: 1px gray dotted;
+    }
+
+    .KD_H4{
+        font-weight: bold;
+        padding-left: 5px;
+        margin-top: 20px;
+    }
+
+    #KD_LOAD{
+        padding: 15px 0px 15px 0px;
+        font-famliy: 微軟正黑體;
+    }`;
+
+    if(window.location.host != '1know.net' && window.location.host != 'www.1know.net'){
+        alert('這不是1know網站');
+    }else if(window.location.hash.split('/')[2] === undefined ){
+        alert('無法獲得群組ID');
+    }else if(document.getElementById('KD_LOAD')){
+        alert('正在讀取中');
+    }else if(document.getElementById('KD_DIV')){
+        alert('下載列表已經讀取過了');
+    }else if(window.location.host == '1know.net' || window.location.host == 'www.1know.net'){
+        let styles = document.createElement('style');
+        styles.innerHTML = PLUGIN_STYLE;
+        let loadDiv = document.createElement('div');
+        loadDiv.id = 'KD_LOAD';
+        loadDiv.innerText = "讀取資料中...請耐心等候";
+        document.getElementsByClassName("collection-title")[0].appendChild(styles);
+        document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
+        let xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        let groupID = window.location.hash.split('/')[2];
+        let data;
+        let html = "";
+        let groupLink;
+        if(window.location.host == '1know.net') groupLink = `http://1know.net/private/group/${groupID}/task`;
+        else groupLink = `http://www.1know.net/private/group/${groupID}/task`;
+        xhr.open("GET",groupLink, true);
+        xhr.onload = function(){
+            data = JSON.parse(xhr.responseText);
+            let div = document.createElement('div');
+            div.id = 'KD_DIV';
+            for(let i = 0 ; i < data.length ; i++){
+                html += `<h4 class='KD_H4'>【${data[i].name}】</h4>`;
+                for(let j = 0 ; j < data[i].units.length ; j++){
+                    if(data[i].units[j].unit_type != 'video') continue;
+                    html += `<div class='KD_LI'>${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
+                }
             }
-        }
-        div.innerHTML = html;
-        document.getElementsByClassName("collection-title")[0].appendChild(div);
-        document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
-    };
-    xhr.send();
-}else{
-    let styles = document.createElement("style");
-    styles.innerHTML = PLUGIN_STYLE;
-    let loadDiv = document.createElement('div');
-    loadDiv.id = "KD_LOAD";
-    loadDiv.innerText = "讀取資料中...請耐心等候";
-    document.getElementsByClassName("collection-title")[0].appendChild(styles);
-    document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
-    let xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-    let groupID = window.location.hash.split('/')[2];
-    let data;
-    let html = "";
-    xhr.open("GET",`http://www.1know.net/private/group/${groupID}/task`, true);
-    xhr.onload = function(){
-        data = JSON.parse(xhr.responseText);
-        let div = document.createElement('div');
-        div.id = "KD_DIV";
-        for(let i = 0 ; i < data.length ; i++){
-            html += `<h4 class="KD_H4">【${data[i].name}】</h4>`;
-            for(let j = 0 ; j < data[i].units.length ; j++){
-                if(data[i].units[j].unit_type != "video") continue;
-                html += `<div class="KD_LI">${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
-            }
-        }
-        div.innerHTML = html;
-        document.getElementsByClassName("collection-title")[0].appendChild(div);
-        document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
-    };
-    xhr.send();
+            div.innerHTML = html;
+            document.getElementsByClassName("collection-title")[0].appendChild(div);
+            document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
+        };
+        xhr.send();
+    }else{
+        //nothing 
+    }
 }
+
+init();
