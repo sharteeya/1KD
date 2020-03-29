@@ -68,6 +68,7 @@ function whoDidntFinish(tid, uid){
         }
         alert(`未看完學生：${reading}\n完全未看學生：${unread}`);
     }
+    xhr.send();
 }
 
 function checkIs1Know(){
