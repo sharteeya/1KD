@@ -117,7 +117,7 @@ function init(){
 
     .KD_BTN_2{
         font-family: 微軟正黑體;
-        background-color: #orange;
+        background-color: orange;
         border: none;
         margin-left: 10px;
         font-weight: bold;
@@ -173,8 +173,7 @@ function init(){
                 html += `<h4 class='KD_H4'>【${data[i].name}】</h4>`;
                 for(let j = 0 ; j < data[i].units.length ; j++){
                     if(data[i].units[j].unit_type != 'video') continue;
-                    html += `<div class='KD_LI'>${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
-                    html += `<div class='KD_LI'>${data[i].units[j].name} <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
+                    html += `<div class='KD_LI'>${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button><button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
                 }
             }
             div.innerHTML = html;
