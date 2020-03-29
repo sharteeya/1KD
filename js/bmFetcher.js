@@ -50,6 +50,26 @@ async function getAnalysisData(tid, uid, gid){
     uxhr.send();
 }
 
+function whoDidntFinish(tid, uid){
+    let link;
+    if(window.location.host == "1know.net") link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
+    else link = `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', link);
+    xhr.onload = function(){
+        let data = JSON.parse(xhr.responseText);
+        let reading = "", unread = "";
+        for(let student in data.members){
+            if(student.status === 2){
+                reading += (student.full_name.split(' ')[0] + student.full_name.split(' ')[1] + ' ')
+            }else if(student.status === 0){
+                unread += (student.full_name.split(' ')[0] + student.full_name.split(' ')[1] + ' ');
+            }
+        }
+        alert(`未看完學生：${reading}\n完全未看學生：${unread}`);
+    }
+}
+
 function checkIs1Know(){
     if(window.location.host != '1know.net' && window.location.host != 'www.1know.net'){
         alert('這不是1know網站');
@@ -86,6 +106,18 @@ function init(){
     .KD_BTN{
         font-family: 微軟正黑體;
         background-color: #037bfc;
+        border: none;
+        margin-left: 10px;
+        font-weight: bold;
+        margin-right: 10px;
+        border-radius: 5px;
+        color: white;
+        padding: 3px 8px 3px 8px;
+    }
+
+    .KD_BTN_2{
+        font-family: 微軟正黑體;
+        background-color: #orange;
         border: none;
         margin-left: 10px;
         font-weight: bold;
@@ -142,6 +174,7 @@ function init(){
                 for(let j = 0 ; j < data[i].units.length ; j++){
                     if(data[i].units[j].unit_type != 'video') continue;
                     html += `<div class='KD_LI'>${data[i].units[j].name} <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button></div>`
+                    html += `<div class='KD_LI'>${data[i].units[j].name} <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
                 }
             }
             div.innerHTML = html;
