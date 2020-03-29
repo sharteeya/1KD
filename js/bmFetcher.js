@@ -50,8 +50,27 @@ async function getAnalysisData(tid, uid, gid){
     uxhr.send();
 }
 
-function init(){
+function checkIs1Know(){
+    if(window.location.host != '1know.net' && window.location.host != 'www.1know.net'){
+        alert('這不是1know網站');
+        return false;
+    }else if(window.location.hash.split('/')[2] === undefined ){
+        alert('無法獲得群組ID');
+        return false;
+    }else if(document.getElementById('KD_LOAD')){
+        alert('正在讀取中');
+        return false;
+    }else if(document.getElementById('KD_DIV')){
+        alert('下載列表已經讀取過了');
+        return false;
+    }else if(window.location.host == '1know.net' || window.location.host == 'www.1know.net'){
+        return true;
+    }else{
+        return false; //buy why?
+    }
+}
 
+function init(){
     const PLUGIN_STYLE = `
     #KD_DIV{
         border: 1px solid grey;
@@ -100,28 +119,17 @@ function init(){
         font-famliy: 微軟正黑體;
     }`;
 
-    if(window.location.host != '1know.net' && window.location.host != 'www.1know.net'){
-        alert('這不是1know網站');
-    }else if(window.location.hash.split('/')[2] === undefined ){
-        alert('無法獲得群組ID');
-    }else if(document.getElementById('KD_LOAD')){
-        alert('正在讀取中');
-    }else if(document.getElementById('KD_DIV')){
-        alert('下載列表已經讀取過了');
-    }else if(window.location.host == '1know.net' || window.location.host == 'www.1know.net'){
-        let styles = document.createElement('style');
+    if(checkIs1Know() === true){
+        let styles = document.createElement('style'), loadDiv = document.createElement('div');
         styles.innerHTML = PLUGIN_STYLE;
-        let loadDiv = document.createElement('div');
         loadDiv.id = 'KD_LOAD';
         loadDiv.innerText = "讀取資料中...請耐心等候";
         document.getElementsByClassName("collection-title")[0].appendChild(styles);
         document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
         let xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
-        let groupID = window.location.hash.split('/')[2];
+        let groupID = window.location.hash.split('/')[2], html = "", groupLink;
         let data;
-        let html = "";
-        let groupLink;
         if(window.location.host == '1know.net') groupLink = `http://1know.net/private/group/${groupID}/task`;
         else groupLink = `http://www.1know.net/private/group/${groupID}/task`;
         xhr.open("GET",groupLink, true);
