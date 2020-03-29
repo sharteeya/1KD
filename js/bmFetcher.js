@@ -1,12 +1,13 @@
 async function getAnalysisData(tid, uid, gid){
-    let link;
+    let link, mlink;
     if(window.location.host == "1know.net") link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     else link = `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
     let uxhr = new XMLHttpRequest(), mxhr = new XMLHttpRequest();
     let data, memberData = {}, arr = [];
     //GET MEMBER
-    if(window.location.host == "1know.net") mxhr.open("GET",`http://1know.net/private/group/${gid}/member`);
-    else mxhr.open("GET",`http://www.1know.net/private/group/${gid}/member`);
+    if(window.location.host == "1know.net") mlink = `http://1know.net/private/group/${gid}/member`;
+    else mlink = `http://www.1know.net/private/group/${gid}/member`
+    mxhr.open("GET", mlink);
     mxhr.onload = function(){
         let d = JSON.parse(mxhr.responseText);
         for(let i = 0 ; i < d.length ; i++) {
@@ -176,10 +177,11 @@ function init(){
             for(let i = 0 ; i < data.length ; i++){
                 html += `<h4 class='KD_H4'>【${data[i].name}】</h4>`;
                 for(let j = 0 ; j < data[i].units.length ; j++){
-                    if(data[i].units[j].unit_type != 'video') continue;
-                    html += `<div class='KD_LI'>${data[i].units[j].name} 
-                    <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${data[i].units[j].uqid}','${groupID}')" class="KD_BTN">CSV</button>
-                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${data[i].units[j].uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
+                    let unit = data[i].units[j];
+                    if(unit.unit_type != 'video') continue;
+                    html += `<div class='KD_LI'>${unit.name} 
+                    <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${unit.uqid}','${groupID}')" class="KD_BTN">CSV</button>
+                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
                 }
             }
             div.innerHTML = html;
