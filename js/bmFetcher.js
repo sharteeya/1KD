@@ -58,6 +58,7 @@ function whoDidntFinish(tid, uid){
     xhr.open('GET', link);
     xhr.onload = function(){
         let data = JSON.parse(xhr.responseText);
+        console.log(data);
         let reading = "", unread = "";
         for(let i = 0 ; i < data.members ; i++){
             let student = data.members[i];
