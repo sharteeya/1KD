@@ -60,6 +60,7 @@ function whoDidntFinish(tid, uid){
         let data = JSON.parse(xhr.responseText);
         let reading = "", unread = "";
         for(let i = 0 ; i < data.members.length ; i++){
+            let student = data.members[i];
             if(student.status === 2){
                 reading += (student.full_name.split(' ')[0] + student.full_name.split(' ')[1] + ' ')
             }else if(student.status === 0 || student.status === null){
