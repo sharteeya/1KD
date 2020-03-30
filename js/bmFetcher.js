@@ -186,33 +186,9 @@ function getTasks() {
     xhr.withCredentials = true;
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/task`);
     else xhr.open("GET", `http://www.1know.net/private/group/${GROUP_ID}/task`);
-    xhr.onload = async function() {
-        let data = await JSON.parse(xhr.responseText);
+    xhr.onload = function() {
+        let data = JSON.parse(xhr.responseText);
         TASK_LIST = data;
-    };
-    xhr.send();
-}
-
-async function init(){
-    if(checkIs1Know() === true){
-        // add init hint
-
-        let styles = document.createElement('style'), loadDiv = document.createElement('div');
-        styles.innerHTML = PLUGIN_STYLE;
-        loadDiv.id = 'KD_LOAD';
-        loadDiv.innerText = "讀取資料中...請耐心等候";
-        document.getElementsByClassName("collection-title")[0].appendChild(styles);
-        document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
-
-        // init global variable
-        GROUP_ID = window.location.hash.split('/')[2];
-        console.log("---FETCHING TASKS---");
-        await getTasks();
-
-        console.log("---FETCHING MEMBER---");
-        getMember();
-
-        // init list
 
         let listDiv = document.createElement('div'), listContent;
         listDiv.id = "KD_DIV";
@@ -229,7 +205,31 @@ async function init(){
         listDiv.innerHTML = listContent;
         document.getElementsByClassName("collection-title")[0].appendChild(listDiv);
         document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
+    };
+    xhr.send();
+}
+
+function init(){
+    if(checkIs1Know() === true){
+        // add init hint
+
+        let styles = document.createElement('style'), loadDiv = document.createElement('div');
+        styles.innerHTML = PLUGIN_STYLE;
+        loadDiv.id = 'KD_LOAD';
+        loadDiv.innerText = "讀取資料中...請耐心等候";
+        document.getElementsByClassName("collection-title")[0].appendChild(styles);
+        document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
+
+        // init global variable
+        GROUP_ID = window.location.hash.split('/')[2];
+        console.log("---FETCHING TASKS---");
+        getTasks();
+
+        console.log("---FETCHING MEMBER---");
+        getMember();
+
         console.log("DONE!");
+        
     }else{
         console.log("URL VERIFY FAILED!");
     }
