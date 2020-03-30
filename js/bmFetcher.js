@@ -192,7 +192,7 @@ function getTasks() {
 
         let listDiv = document.createElement('div'), listContent;
         listDiv.id = "KD_DIV";
-        TASK_LIST.map((task, i) => {
+        data.map((task, i) => {
             listContent += `<h4 class='KD_H4'>【${task.name}】</h4>`;
             task.units.map((unit, j) => {
                 if(unit.unit_type == "video") {
@@ -209,10 +209,9 @@ function getTasks() {
     xhr.send();
 }
 
-async function init(){
+function init(){
     if(checkIs1Know() === true){
         // add init hint
-
         let styles = document.createElement('style'), loadDiv = document.createElement('div');
         styles.innerHTML = PLUGIN_STYLE;
         loadDiv.id = 'KD_LOAD';
@@ -222,17 +221,12 @@ async function init(){
 
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
-        console.log("---FETCHING TASKS---");
-        await getTasks();
-
-        console.log("---FETCHING MEMBER---");
-        await getMember();
-
-        console.log("DONE!");
+        getTasks();
+        getMember();
         
     }else{
         console.log("URL VERIFY FAILED!");
     }
 }
 
-await init();
+init();
