@@ -1,3 +1,5 @@
+var MEMBER_DATA, GROUP_ID=123;
+
 async function getAnalysisData(tid, uid, gid){
     let link, mlink;
     if(window.location.host == "1know.net") link = `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`;
