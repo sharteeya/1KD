@@ -173,6 +173,7 @@ function getMember() {
     else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
     xhr.onload = function() {
         MEMBER_DATA = JSON.parse(xhr.responseText);
+        getIDList();
     }
     xhr.send();
 }
@@ -209,7 +210,7 @@ function init(){
         GROUP_ID = window.location.hash.split('/')[2];
         getTasks();
         getMember();
-        getIDList();
+        
         // init list
 
         let listDiv = document.createElement('div'), listContent;
