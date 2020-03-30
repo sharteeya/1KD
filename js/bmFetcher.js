@@ -172,8 +172,9 @@ function getMember() {
     if(window.location.host == "1know.net") xhr.open("GET",`http://1know.net/private/group/${GROUP_ID}/member`);
     else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
     xhr.onload = function() {
-        MEMBER_DATA = JSON.parse(xhr.responseText);
-        MEMBER_DATA.map((student, i) => {
+        let data = JSON.parse(xhr.responseText);
+        MEMBER_DATA = data;
+        data.map((student, i) => {
             STUDENT_ID_LIST[student.full_name] = student.email.split('@')[0];
         });
     }
