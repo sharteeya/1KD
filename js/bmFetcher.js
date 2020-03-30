@@ -187,7 +187,8 @@ function getTasks() {
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/task`);
     else xhr.open("GET", `http://www.1know.net/private/group/${GROUP_ID}/task`);
     xhr.onload = function() {
-        TASK_LIST = JSON.parse(xhr.responseText);
+        let data = JSON.parse(xhr.responseText);
+        TASK_LIST = data;
     };
     xhr.send();
 }
