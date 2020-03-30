@@ -1,4 +1,4 @@
-var MEMBER_DATA, GROUP_ID=123;
+var MEMBER_DATA, GROUP_ID;
 
 async function getAnalysisData(tid, uid, gid){
     let link, mlink;
@@ -162,6 +162,7 @@ function init(){
     }`;
 
     if(checkIs1Know() === true){
+        GROUP_ID = 123;
         let styles = document.createElement('style'), loadDiv = document.createElement('div');
         styles.innerHTML = PLUGIN_STYLE;
         loadDiv.id = 'KD_LOAD';
