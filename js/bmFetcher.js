@@ -1,4 +1,4 @@
-var MEMBER_DATA, GROUP_ID;
+var MEMBER_DATA, STUDENT_ID_LIST = {}, TASK_LIST, GROUP_ID;
 
 async function getAnalysisData(tid, uid, gid){
     let link, mlink;
@@ -100,6 +100,34 @@ function checkIs1Know(){
     }
 }
 
+function getMember() {
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    if(window.location.host == "1know.net") xhr.open("GET",`http://1know.net/private/group/${GROUP_ID}/member`);
+    else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
+    xhr.onload = function() {
+        MEMBER_DATA = JSON.parse(xhr.responseText);
+    }
+    xhr.send();
+}
+
+function getIDList() {
+    MEMBER_DATA.map((student, i) => {
+        STUDENT_ID_LIST[student.full_name] = student.email.split('@')[0];
+    });
+}
+
+function getTasks() {
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/task`);
+    else xhr.open("GET", `http://www.1know.net/private/group/${GROUP_ID}/task`);
+    xhr.onload = function() {
+        TASK_LIST = JSON.parse(xhr.responseText);
+    };
+    xhr.send();
+}
+
 function init(){
     const PLUGIN_STYLE = `
     #KD_DIV{
@@ -162,43 +190,40 @@ function init(){
     }`;
 
     if(checkIs1Know() === true){
-        GROUP_ID = 123;
+
+        // add init hint
+
         let styles = document.createElement('style'), loadDiv = document.createElement('div');
         styles.innerHTML = PLUGIN_STYLE;
         loadDiv.id = 'KD_LOAD';
         loadDiv.innerText = "讀取資料中...請耐心等候";
         document.getElementsByClassName("collection-title")[0].appendChild(styles);
         document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
-        let xhr = new XMLHttpRequest();
-        xhr.withCredentials = true;
-        let groupID = window.location.hash.split('/')[2], html = "", groupLink;
-        
-        if(window.location.host == '1know.net') groupLink = `http://1know.net/private/group/${groupID}/task`;
-        else groupLink = `http://www.1know.net/private/group/${groupID}/task`;
-        xhr.open("GET",groupLink, true);
-        xhr.onload = function(){
-            let data = JSON.parse(xhr.responseText);
-            let div = document.createElement('div');
-            div.id = 'KD_DIV';
 
-            data.map((task, i) => {
-                html += `<h4 class='KD_H4'>【${task.name}】</h4>`;
-                task.units.map((unit, j) => {
-                    if(unit.unit_type == 'video') {
-                        html += `<div class='KD_LI'>${unit.name} 
-                        <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${task.uqid}','${unit.uqid}','${groupID}')" class="KD_BTN">CSV</button>
-                        <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
-                    }
-                });
+        // init global variable
+        GROUP_ID = window.location.hash.split('/')[2];
+        getTasks();
+        getMember();
+        getIDList();
+        // init list
+
+        let listDiv = document.createElement('div'), listContent;
+        listDiv.id = 'KD_DIV';
+        TASK_LIST.map((task, i) => {
+            listContent += `<h4 class='KD_H4'>【${task.name}】</h4>`;
+            task.units.map((unit, j) => {
+                if(unit.unit_type == 'video') {
+                    listContent += `<div class='KD_LI'>${unit.name} 
+                    <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${task.uqid}','${unit.uqid}','${groupID}')" class="KD_BTN">CSV</button>
+                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
+                }
             });
-
-            div.innerHTML = html;
-            document.getElementsByClassName("collection-title")[0].appendChild(div);
-            document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
-        };
-        xhr.send();
+        });
+        listDiv.innerHTML = listContent;
+        document.getElementsByClassName("collection-title")[0].appendChild(listDiv);
+        document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
     }else{
-        //nothing 
+        console.log("URL VERIFY FAILED!");
     }
 }
 
