@@ -209,7 +209,7 @@ function getTasks() {
     xhr.send();
 }
 
-function init(){
+async function init(){
     if(checkIs1Know() === true){
         // add init hint
 
@@ -223,10 +223,10 @@ function init(){
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
         console.log("---FETCHING TASKS---");
-        getTasks();
+        await getTasks();
 
         console.log("---FETCHING MEMBER---");
-        getMember();
+        await getMember();
 
         console.log("DONE!");
         
