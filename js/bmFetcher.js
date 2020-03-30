@@ -166,13 +166,13 @@ function checkIs1Know(){
     }
 }
 
-function getMember() {
+async function getMember() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     if(window.location.host == "1know.net") xhr.open("GET",`http://1know.net/private/group/${GROUP_ID}/member`);
     else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
     xhr.onload = function() {
-        MEMBER_DATA = JSON.parse(xhr.responseText);
+        await MEMBER_DATA = JSON.parse(xhr.responseText);
     }
     xhr.send();
 }
