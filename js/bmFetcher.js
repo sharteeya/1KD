@@ -166,13 +166,13 @@ function checkIs1Know(){
     }
 }
 
-async function getMember() {
+function getMember() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     if(window.location.host == "1know.net") xhr.open("GET",`http://1know.net/private/group/${GROUP_ID}/member`);
     else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
-    xhr.onload = function() {
-        await MEMBER_DATA = JSON.parse(xhr.responseText);
+    xhr.onload = async function() {
+        MEMBER_DATA = await JSON.parse(xhr.responseText);
     }
     xhr.send();
 }
@@ -194,7 +194,7 @@ function getTasks() {
     xhr.send();
 }
 
-async function init(){
+function init(){
     if(checkIs1Know() === true){
         // add init hint
 
@@ -208,13 +208,13 @@ async function init(){
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
         console.log("---FETCHING TASKS---");
-        await getTasks();
+        getTasks();
 
         console.log("---FETCHING MEMBER---");
-        await getMember();
+        getMember();
 
         console.log("---ANALYSIS STUDENT ID---");
-        await getIDList();
+        getIDList();
         // init list
 
         let listDiv = document.createElement('div'), listContent;
