@@ -235,4 +235,4 @@ async function init(){
     }
 }
 
-init();
+await init();
