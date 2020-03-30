@@ -190,7 +190,7 @@ function getTasks() {
         let data = JSON.parse(xhr.responseText);
         TASK_LIST = data;
 
-        let listDiv = document.createElement('div'), listContent;
+        let listDiv = document.createElement('div'), listContent = "";
         listDiv.id = "KD_DIV";
         data.map((task, i) => {
             listContent += `<h4 class='KD_H4'>【${task.name}】</h4>`;
