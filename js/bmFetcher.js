@@ -25,10 +25,13 @@ async function getAnalysisData(tid, uid, gid){
             return;
         }
         let students = {};
-        for(let i = 0 ; i < data.members.length ; i++){
-            students[data.members[i].uqid] = data.members[i].full_name;
-        }
+
+        data.members.map((student, i) => {
+            students[student.uqid] = student.full_name;
+        });
+
         arr.push(["\ufeff姓名", "學號", "開始時間", "結束時間", "花費時間", "影片開始時間", "影片結束時間", "影片觀看時間", "影片名稱", "影片長度"]);
+
         for(let i = 0 ; i < data.shs.length ; i++){
             let d = data.shs[i];
             let r_time_s = new Date(d.real_time_s);
@@ -60,14 +63,14 @@ function whoDidntFinish(tid, uid){
     xhr.onload = function(){
         let data = JSON.parse(xhr.responseText);
         let reading = "", unread = "";
-        for(let i = 0 ; i < data.members.length ; i++){
-            let student = data.members[i];
+        data.members.map((student, i) => {
             if(student.status === 2){
                 reading += (student.full_name.split(' ')[0] + student.full_name.split(' ')[1] + ' ')
             }else if(student.status === 0 || student.status === null){
                 unread += (student.full_name.split(' ')[0] + student.full_name.split(' ')[1] + ' ');
             }
-        }
+        });
+
         if(reading == "") reading = "無";
         if(unread == "") unread = "無";
         alert(`未看完學生：${reading}\n完全未看學生：${unread}`);
@@ -166,24 +169,26 @@ function init(){
         let xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
         let groupID = window.location.hash.split('/')[2], html = "", groupLink;
-        let data;
+        
         if(window.location.host == '1know.net') groupLink = `http://1know.net/private/group/${groupID}/task`;
         else groupLink = `http://www.1know.net/private/group/${groupID}/task`;
         xhr.open("GET",groupLink, true);
         xhr.onload = function(){
-            data = JSON.parse(xhr.responseText);
+            let data = JSON.parse(xhr.responseText);
             let div = document.createElement('div');
             div.id = 'KD_DIV';
-            for(let i = 0 ; i < data.length ; i++){
-                html += `<h4 class='KD_H4'>【${data[i].name}】</h4>`;
-                for(let j = 0 ; j < data[i].units.length ; j++){
-                    let unit = data[i].units[j];
-                    if(unit.unit_type != 'video') continue;
-                    html += `<div class='KD_LI'>${unit.name} 
-                    <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${data[i].uqid}','${unit.uqid}','${groupID}')" class="KD_BTN">CSV</button>
-                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${data[i].uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
-                }
-            }
+
+            data.map((task, i) => {
+                html += `<h4 class='KD_H4'>【${task.name}】</h4>`;
+                task.units.map((unit, j) => {
+                    if(unit.unit_type == 'video') {
+                        html += `<div class='KD_LI'>${unit.name} 
+                        <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${task.uqid}','${unit.uqid}','${groupID}')" class="KD_BTN">CSV</button>
+                        <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
+                    }
+                });
+            });
+
             div.innerHTML = html;
             document.getElementsByClassName("collection-title")[0].appendChild(div);
             document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
