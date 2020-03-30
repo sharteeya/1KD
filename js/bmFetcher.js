@@ -95,7 +95,7 @@ function getAnalysisData(tid, uid){
         data.shs.map((info, i) => {
             arr.push([
                 students[info.uqid].replace(/\s/g, ''), 
-                STUDENT_ID_LIST[students[d.uqid]], 
+                STUDENT_ID_LIST[students[info.uqid]], 
                 new Date(info.real_time_s).toString(), 
                 new Date(info.real_time_e).toString(), 
                 Math.round(info.real_time_d * 10) / 10, 
