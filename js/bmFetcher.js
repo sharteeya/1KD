@@ -178,6 +178,7 @@ function getMember() {
 }
 
 function getIDList() {
+    console.log(MEMBER_DATA);
     MEMBER_DATA.map((student, i) => {
         STUDENT_ID_LIST[student.full_name] = student.email.split('@')[0];
     });
@@ -194,7 +195,7 @@ function getTasks() {
     xhr.send();
 }
 
-function init(){
+async function init(){
     if(checkIs1Know() === true){
         // add init hint
 
@@ -208,13 +209,13 @@ function init(){
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
         console.log("---FETCHING TASKS---");
-        getTasks();
+        await getTasks();
 
         console.log("---FETCHING MEMBER---");
-        getMember();
+        await getMember();
 
         console.log("---ANALYSIS STUDENT ID---");
-        getIDList();
+        await getIDList();
         // init list
 
         let listDiv = document.createElement('div'), listContent;
