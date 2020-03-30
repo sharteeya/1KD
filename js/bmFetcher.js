@@ -166,25 +166,25 @@ function checkIs1Know(){
     }
 }
 
-async function getMember() {
+function getMember() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     if(window.location.host == "1know.net") xhr.open("GET",`http://1know.net/private/group/${GROUP_ID}/member`);
     else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
-    xhr.onload = async function() {
-        MEMBER_DATA = await JSON.parse(xhr.responseText);
+    xhr.onload = function() {
+        MEMBER_DATA = JSON.parse(xhr.responseText);
     }
     xhr.send();
 }
 
-async function getIDList() {
+function getIDList() {
     console.log(MEMBER_DATA);
     MEMBER_DATA.map((student, i) => {
         STUDENT_ID_LIST[student.full_name] = student.email.split('@')[0];
     });
 }
 
-async function getTasks() {
+function getTasks() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/task`);
