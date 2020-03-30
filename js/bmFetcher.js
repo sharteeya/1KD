@@ -173,7 +173,6 @@ function getMember() {
     else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
     xhr.onload = function() {
         MEMBER_DATA = JSON.parse(xhr.responseText);
-        getIDList();
     }
     xhr.send();
 }
@@ -195,7 +194,7 @@ function getTasks() {
     xhr.send();
 }
 
-function init(){
+async function init(){
     if(checkIs1Know() === true){
         // add init hint
 
@@ -208,9 +207,14 @@ function init(){
 
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
-        getTasks();
-        getMember();
-        
+        console.log("---FETCHING TASKS---");
+        await getTasks();
+
+        console.log("---FETCHING MEMBER---");
+        await getMember();
+
+        console.log("---ANALYSIS STUDENT ID---");
+        await getIDList();
         // init list
 
         let listDiv = document.createElement('div'), listContent;
@@ -228,6 +232,7 @@ function init(){
         listDiv.innerHTML = listContent;
         document.getElementsByClassName("collection-title")[0].appendChild(listDiv);
         document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
+        console.log("DONE!");
     }else{
         console.log("URL VERIFY FAILED!");
     }
