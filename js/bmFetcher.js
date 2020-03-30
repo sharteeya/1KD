@@ -166,7 +166,7 @@ function checkIs1Know(){
     }
 }
 
-await function getMember() {
+async function getMember() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     if(window.location.host == "1know.net") xhr.open("GET",`http://1know.net/private/group/${GROUP_ID}/member`);
@@ -177,14 +177,14 @@ await function getMember() {
     xhr.send();
 }
 
-await function getIDList() {
+async function getIDList() {
     console.log(MEMBER_DATA);
     MEMBER_DATA.map((student, i) => {
         STUDENT_ID_LIST[student.full_name] = student.email.split('@')[0];
     });
 }
 
-await function getTasks() {
+async function getTasks() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/task`);
