@@ -257,8 +257,9 @@ function getChart(tid, uid){
         let c = new Chart(chart, {
             type: 'bar',
             data: {
+                labels: labs,
                 datasets: [{
-                    label: labs,
+                    label: '觀看秒數',
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: times
