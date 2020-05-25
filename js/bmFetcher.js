@@ -222,7 +222,7 @@ function getGroup(){
     xhr.onload = function(){
         let data = JSON.parse(xhr.responseText);
         data.map((g,i) => {
-            GROUP_NAME[g.uqid] = name;
+            GROUP_NAME[g.uqid] = g.name;
         });
     };
     xhr.send();
