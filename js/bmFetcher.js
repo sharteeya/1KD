@@ -260,8 +260,8 @@ function getChart(tid, uid){
                 labels: labs,
                 datasets: [{
                     label: '觀看秒數',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgb(255, 207, 102, 0.75)',
+                    borderColor: 'rgb(255, 181, 18)',
                     data: times
                 }]
             },
