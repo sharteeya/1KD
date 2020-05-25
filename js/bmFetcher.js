@@ -1,4 +1,4 @@
-var MEMBER_DATA, STUDENT_ID_LIST = {}, TASK_LIST, GROUP_ID;
+var MEMBER_DATA, STUDENT_ID_LIST = {}, TASK_LIST, GROUP_ID, GROUP_TABLE = {};
 const PLUGIN_STYLE = `
     #KD_DIV{
         border: 1px solid grey;
@@ -176,6 +176,9 @@ function getMember() {
         MEMBER_DATA = data;
         data.map((student, i) => {
             STUDENT_ID_LIST[student.full_name] = student.email.split('@')[0];
+            if(student.team){
+                GROUP_TABLE[student.uqid] = student.team
+            }
         });
     }
     xhr.send();
@@ -196,9 +199,11 @@ function getTasks() {
             listContent += `<h4 class='KD_H4'>【${task.name}】</h4>`;
             task.units.map((unit, j) => {
                 if(unit.unit_type == "video") {
-                    listContent += `<div class='KD_LI'>${unit.name} 
+                    listContent += `<div class='KD_LI' id = ${unit.uqid}>${unit.name} 
                     <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${task.uqid}','${unit.uqid}')" class="KD_BTN">CSV</button>
-                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>`
+                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>
+                    <button type="button" title="查看統計圖表" onclick="getChart('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">統計圖表</button></div>
+                    `
                 }
             });
         });
@@ -207,6 +212,24 @@ function getTasks() {
         document.getElementsByClassName("collection-title")[0].removeChild(document.getElementById("KD_LOAD"));
     };
     xhr.send();
+}
+
+function getChart(tid, uid, div_id){
+    let xhr = new XMLHttpRequest();
+    if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    else xhr.open("GET", `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    xhr.onload = function(){
+        let data = JSON.parse(xhr.responseText);
+        if(data.unit.unit_type != "video"){
+            alert("這不是觀看影片的單元");
+            return;
+        }
+        let total_time = {}
+        data.shs.map((record, i) => {
+            total_time[GROUP_TABLE[record.uqid]] += record.video_time_d;
+        });
+        console.log(total_time);
+    }
 }
 
 function init(){
@@ -218,6 +241,10 @@ function init(){
         loadDiv.innerText = "讀取資料中...請耐心等候";
         document.getElementsByClassName("collection-title")[0].appendChild(styles);
         document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
+
+        let chartjs = document.createElement('script');
+        chartjs.src = 'https://cdnjs.com/libraries/Chart.js';
+        document.body.appendChild(chartjs)
 
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
