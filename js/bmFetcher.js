@@ -253,7 +253,7 @@ function getChart(tid, uid){
             times.push(Math.round(total_time[key]))
         }
         console.log(total_time);
-
+        console.log(labs)
         let c = new Chart(chart, {
             type: 'bar',
             data: {
