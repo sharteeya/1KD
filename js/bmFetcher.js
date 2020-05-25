@@ -228,18 +228,16 @@ function getGroup(){
     xhr.send();
 }
 
-function dlChart(uid){
-    let link = document.createElement('a');
-    link.download = `${uid}_GroupWatchTime.png`;
-    link.href = document.getElementById(`${uid}_canvas`).toDataURL()
-    link.click();
-}
-
 function getChart(tid, uid){
     dlBtn = document.createElement('button');
     dlBtn.innerText = "下載圖表"
     dlBtn.className = 'KD_BTN_2'
-    dlBtn.onclick = dlChart(uid);
+    dlBtn.onclick = function(uid){
+        let link = document.createElement('a');
+        link.download = `${uid}_GroupWatchTime.png`;
+        link.href = document.getElementById(`${uid}_canvas`).toDataURL()
+        link.click();
+    }
     document.getElementById(uid).appendChild(dlBtn);
     let chart = document.createElement('canvas');
     chart.id = `${uid}_canvas`;
