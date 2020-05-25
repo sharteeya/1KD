@@ -234,8 +234,10 @@ function getChart(tid, uid){
     dlBtn.className = 'KD_BTN_2'
     dlBtn.onclick = function(uid){
         let link = document.createElement('a');
-        link.download = `${uid}_GroupWatchTime.png`;
-        link.href = document.getElementById(`${uid}_canvas`).toDataURL()
+        can = this.parentNode.getElementsByTagName('canvas')[0]
+        link.href = can.toDataURL()
+        link.download = `${can.id}_GroupWatchTime.png`;
+        
         link.click();
     }
     document.getElementById(uid).appendChild(dlBtn);
