@@ -229,18 +229,6 @@ function getGroup(){
 }
 
 function getChart(tid, uid){
-    dlBtn = document.createElement('button');
-    dlBtn.innerText = "下載圖表"
-    dlBtn.className = 'KD_BTN_2'
-    dlBtn.onclick = function(uid){
-        let link = document.createElement('a');
-        can = this.parentNode.getElementsByTagName('canvas')[0]
-        link.href = can.toDataURL()
-        link.download = `${can.id}_GroupWatchTime.png`;
-        
-        link.click();
-    }
-    document.getElementById(uid).appendChild(dlBtn);
     let chart = document.createElement('canvas');
     chart.id = `${uid}_canvas`;
     document.getElementById(uid).appendChild(chart);
@@ -275,7 +263,20 @@ function getChart(tid, uid){
                     data: times
                 }]
             },
-            options: {}
+            animation : {
+                onComplete : function(){
+                    dlBtn = document.createElement('button');
+                    dlBtn.innerText = "下載圖表"
+                    dlBtn.className = 'KD_BTN_2'
+                    dlBtn.onclick = function(uid){
+                        let link = document.createElement('a');
+                        link.href = c.toBase64Image()
+                        link.download = `GroupWatchTime.png`;
+                        link.click();
+                    }
+                    this.parentNode.appendChild(dlBtn);
+                }
+             }  
         });
 
     }
