@@ -221,16 +221,14 @@ function getChart(tid, uid){
     else xhr.open("GET", `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
     xhr.onload = function(){
         let data = JSON.parse(xhr.responseText);
-        console.log(data)
         if(data.unit.unit_type != "video"){
             alert("這不是觀看影片的單元");
             return;
         }
         let total_time = {}
-
-        for(let key in data.shs[0]){
-            total_time[data.shs[0][key].uqid] += data.shs[0][key].video_time_d;
-        }
+        data.shs.map((record, i) => {
+            total_time[GROUP_TABLE[record.uqid]] += record.video_time_d;
+        });
         console.log(total_time);
     }
     xhr.send();
