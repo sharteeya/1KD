@@ -1,4 +1,4 @@
-var MEMBER_DATA, STUDENT_ID_LIST = {}, TASK_LIST, GROUP_ID, GROUP_TABLE = {};
+var MEMBER_DATA, STUDENT_ID_LIST = {}, TASK_LIST, GROUP_ID, GROUP_TABLE = {}, GROUP_NAME = {};
 const PLUGIN_STYLE = `
     #KD_DIV{
         border: 1px solid grey;
@@ -215,6 +215,19 @@ function getTasks() {
     xhr.send();
 }
 
+function getGroup(){
+    let xhr = new XMLHttpRequest();
+    if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/member/team`);
+    else xhr.open("GET", `http://www.1know.net/private/group/${GROUP_ID}/member/team`);
+    xhr.onload = function(){
+        let data = JSON.parse(xhr.responseText);
+        data.map((g,i) => {
+            GROUP_NAME[g.uqid] = name;
+        });
+    };
+    xhr.send();
+}
+
 function getChart(tid, uid){
     let xhr = new XMLHttpRequest();
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
@@ -230,6 +243,9 @@ function getChart(tid, uid){
             if(!total_time[GROUP_TABLE[record.uqid].uqid]) total_time[GROUP_TABLE[record.uqid].uqid] = 0;
             total_time[GROUP_TABLE[record.uqid].uqid] += record.video_time_d;
         });
+        for(let key in total_time){
+            
+        }
         console.log(total_time);
     }
     xhr.send();
@@ -247,6 +263,11 @@ function init(){
 
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
+        try{
+            getGroup();
+        }catch(e){
+
+        }
         getTasks();
         getMember();
         
