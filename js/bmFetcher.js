@@ -257,16 +257,13 @@ function getChart(tid, uid){
         let c = new Chart(chart, {
             type: 'bar',
             data: {
-                labels: labs,
                 datasets: [{
-                    label: '統計圖表',
+                    label: labs,
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: times
                 }]
             },
-        
-            // Configuration options go here
             options: {}
         });
 
