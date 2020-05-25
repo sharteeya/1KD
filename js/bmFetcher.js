@@ -201,7 +201,7 @@ function getTasks() {
                 if(unit.unit_type == "video") {
                     listContent += `<div class='KD_LI' id = ${unit.uqid}>${unit.name} 
                     <button type="button" title="下載為CSV檔" onclick="getAnalysisData('${task.uqid}','${unit.uqid}')" class="KD_BTN">CSV</button>
-                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button></div>
+                    <button type="button" title="查看誰沒看完影片" onclick="whoDidntFinish('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">誰沒看完？</button>
                     <button type="button" title="查看統計圖表" onclick="getChart('${task.uqid}','${unit.uqid}')" class="KD_BTN_2">統計圖表</button></div>
                     `
                 }
@@ -214,7 +214,7 @@ function getTasks() {
     xhr.send();
 }
 
-function getChart(tid, uid, div_id){
+function getChart(tid, uid){
     let xhr = new XMLHttpRequest();
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
     else xhr.open("GET", `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
