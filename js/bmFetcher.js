@@ -220,7 +220,6 @@ function getChart(tid, uid){
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
     else xhr.open("GET", `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
     xhr.onload = function(){
-        console.log('loading')
         let data = JSON.parse(xhr.responseText);
         console.log(data)
         if(data.unit.unit_type != "video"){
@@ -233,7 +232,6 @@ function getChart(tid, uid){
             total_time[data.shs[0][key].uqid] += data.shs[0][key].video_time_d;
         }
         console.log(total_time);
-        console.log('done')
     }
     xhr.send();
 }
