@@ -222,14 +222,16 @@ function getChart(tid, uid){
     xhr.onload = function(){
         console.log('loading')
         let data = JSON.parse(xhr.responseText);
+        console.log(data)
         if(data.unit.unit_type != "video"){
             alert("這不是觀看影片的單元");
             return;
         }
         let total_time = {}
-        data.shs.map((record, i) => {
-            total_time[GROUP_TABLE[record.uqid]] += record.video_time_d;
-        });
+
+        for(let key in data.shs[0]){
+            total_time[data.shs[0][key].uqid] += data.shs[0][key].video_time_d;
+        }
         console.log(total_time);
         console.log('done')
     }
