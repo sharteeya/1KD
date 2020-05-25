@@ -244,10 +244,6 @@ function init(){
         document.getElementsByClassName("collection-title")[0].appendChild(styles);
         document.getElementsByClassName("collection-title")[0].appendChild(loadDiv);
 
-        let chartjs = document.createElement('script');
-        chartjs.src = 'https://cdnjs.com/libraries/Chart.js';
-        document.body.appendChild(chartjs)
-
         // init global variable
         GROUP_ID = window.location.hash.split('/')[2];
         getTasks();
