@@ -235,7 +235,7 @@ function getChart(tid, uid){
     dlBtn.onclick = function(uid){
         let link = document.createElement('a');
         can = this.parentNode.getElementsByTagName('canvas')[0]
-        link.href = can.toDataURL()
+        link.href = can.toBase64Image();
         link.download = `${can.id}_GroupWatchTime.png`;
         
         link.click();
