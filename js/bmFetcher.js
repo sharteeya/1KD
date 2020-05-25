@@ -229,6 +229,15 @@ function getGroup(){
 }
 
 function getChart(tid, uid){
+    dlBtn = document.createElement('button');
+    dlBtn.class = 'KD_BTN2'
+    dlBtn.onclick = `
+        let link = document.createElement('a');
+        link.download = '${uid}_GroupWatchTime.png';
+        link.href = document.getElementById(${uid}_canvas).toDataURL()
+        link.click();
+        `;
+    document.getElementById(uid).appendChild(dlBtn);
     let chart = document.createElement('canvas');
     chart.id = `${uid}_canvas`;
     document.getElementById(uid).appendChild(chart);
@@ -252,8 +261,6 @@ function getChart(tid, uid){
             labs.push(GROUP_NAME[key]);
             times.push(Math.round(total_time[key]))
         }
-        console.log(total_time);
-        console.log(labs)
         let c = new Chart(chart, {
             type: 'bar',
             data: {
