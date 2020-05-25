@@ -227,6 +227,7 @@ function getChart(tid, uid){
         }
         let total_time = {}
         data.shs.map((record, i) => {
+            if(!total_time[GROUP_TABLE[record.uqid].uqid]) total_time[GROUP_TABLE[record.uqid].uqid] = 0;
             total_time[GROUP_TABLE[record.uqid].uqid] += record.video_time_d;
         });
         console.log(total_time);
