@@ -229,6 +229,10 @@ function getGroup(){
 }
 
 function getChart(tid, uid){
+    let chart = document.createElement('canvas');
+    chart.id = `${uid}_canvas`;
+    document.getElementById(uid).appendChild(chart);
+    chart = document.getElementById(`${uid}_canvas`).getContext('2d');
     let xhr = new XMLHttpRequest();
     if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
     else xhr.open("GET", `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
@@ -243,10 +247,29 @@ function getChart(tid, uid){
             if(!total_time[GROUP_TABLE[record.uqid].uqid]) total_time[GROUP_TABLE[record.uqid].uqid] = 0;
             total_time[GROUP_TABLE[record.uqid].uqid] += record.video_time_d;
         });
+        let labs = [], times = [];
         for(let key in total_time){
-            
+            labs.push(GROUP_NAME[key]);
+            times.push(Math.round(total_time[key]))
         }
         console.log(total_time);
+
+        let c = new Chart(chart, {
+            type: 'bar',
+            data: {
+                labels: labs,
+                datasets: [{
+                    label: '統計圖表',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: times
+                }]
+            },
+        
+            // Configuration options go here
+            options: {}
+        });
+
     }
     xhr.send();
 }
