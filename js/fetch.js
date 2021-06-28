@@ -171,7 +171,6 @@ const getMember = () => {
             return response.json();
         })
         .then((data) => {
-            let data = JSON.parse(xhr.responseText);
             MEMBER_DATA = data;
             data.forEach((student) => {
                 STUDENT_ID_LIST[student.full_name] = student.email.split('@')[0];
@@ -247,7 +246,6 @@ const getChart = (tid, uid) => {
             return response.json();
         })
         .then((data) => {
-            let data = JSON.parse(xhr.responseText);
             if(data.unit.unit_type != 'video'){
                 alert('這不是觀看影片的單元');
                 return;
