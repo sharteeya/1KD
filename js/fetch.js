@@ -269,7 +269,7 @@ const getChart = (tid, uid) => {
                         backgroundColor: 'rgb(255, 207, 102, 0.75)',
                         borderColor: 'rgb(255, 181, 18)',
                         data: times
-                    }]
+                    }],
                 },
                 options: {}
             });
