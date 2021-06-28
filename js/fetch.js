@@ -108,20 +108,21 @@ const getAnalysisData = (tid, uid) => {
                     data.unit.content_time,
                 ]);
             });
-        })
 
-        let csvContent = 'data:text/csv;charset=utf-8,';
+            let csvContent = 'data:text/csv;charset=utf-8,';
 
-        arr.forEach((rowArray) => {
-            let row = rowArray.join(',');
-            csvContent += row + '\r\n';
+            arr.forEach((rowArray) => {
+                let row = rowArray.join(',');
+                csvContent += row + '\r\n';
+            });
+            
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `1Know資料統計_${data.unit.name}.csv`);
+            document.body.appendChild(link); // Required for FF
+            link.click();
         });
-        let encodedUri = encodeURI(csvContent);
-        let link = document.createElement('a');
-        link.setAttribute('href', encodedUri);
-        link.setAttribute('download', `1Know資料統計_${data.unit.name}.csv`);
-        document.body.appendChild(link); // Required for FF
-        link.click();
 };
 
 const whoDidntFinish = (tid, uid) => {
