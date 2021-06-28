@@ -61,8 +61,8 @@ const PLUGIN_STYLE = `
 
 function getAnalysisData(tid, uid){
     let xhr = new XMLHttpRequest();
-    if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
-    else xhr.open("GET", `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    if(window.location.host == "1know.net") xhr.open("GET", `https://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    else xhr.open("GET", `https://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
 
     //GET DETAIL DATA
 
@@ -125,8 +125,8 @@ function getAnalysisData(tid, uid){
 
 function whoDidntFinish(tid, uid){
     let xhr = new XMLHttpRequest();
-    if(window.location.host == "1know.net") xhr.open('GET', `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
-    else xhr.open('GET', `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    if(window.location.host == "1know.net") xhr.open('GET', `https://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    else xhr.open('GET', `https://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
  
     xhr.onload = function(){
         let data = JSON.parse(xhr.responseText);
@@ -169,8 +169,8 @@ function checkIs1Know(){
 function getMember() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
-    if(window.location.host == "1know.net") xhr.open("GET",`http://1know.net/private/group/${GROUP_ID}/member`);
-    else xhr.open("GET",`http://www.1know.net/private/group/${GROUP_ID}/member`);
+    if(window.location.host == "1know.net") xhr.open("GET",`https://1know.net/private/group/${GROUP_ID}/member`);
+    else xhr.open("GET",`https://www.1know.net/private/group/${GROUP_ID}/member`);
     xhr.onload = function() {
         let data = JSON.parse(xhr.responseText);
         MEMBER_DATA = data;
@@ -187,8 +187,8 @@ function getMember() {
 function getTasks() {
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
-    if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/task`);
-    else xhr.open("GET", `http://www.1know.net/private/group/${GROUP_ID}/task`);
+    if(window.location.host == "1know.net") xhr.open("GET", `https://1know.net/private/group/${GROUP_ID}/task`);
+    else xhr.open("GET", `https://www.1know.net/private/group/${GROUP_ID}/task`);
     xhr.onload = function() {
         let data = JSON.parse(xhr.responseText);
         TASK_LIST = data;
@@ -217,8 +217,8 @@ function getTasks() {
 
 function getGroup(){
     let xhr = new XMLHttpRequest();
-    if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/${GROUP_ID}/member/team`);
-    else xhr.open("GET", `http://www.1know.net/private/group/${GROUP_ID}/member/team`);
+    if(window.location.host == "1know.net") xhr.open("GET", `https://1know.net/private/group/${GROUP_ID}/member/team`);
+    else xhr.open("GET", `https://www.1know.net/private/group/${GROUP_ID}/member/team`);
     xhr.onload = function(){
         let data = JSON.parse(xhr.responseText);
         data.map((g,i) => {
@@ -246,8 +246,8 @@ function getChart(tid, uid){
     document.getElementById(uid).appendChild(chart);
     chart = document.getElementById(`${uid}_canvas`).getContext('2d');
     let xhr = new XMLHttpRequest();
-    if(window.location.host == "1know.net") xhr.open("GET", `http://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
-    else xhr.open("GET", `http://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    if(window.location.host == "1know.net") xhr.open("GET", `https://1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
+    else xhr.open("GET", `https://www.1know.net/private/group/task/${tid}/analytics/unit/${uid}`);
     xhr.onload = function(){
         let data = JSON.parse(xhr.responseText);
         if(data.unit.unit_type != "video"){
